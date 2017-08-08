@@ -65,7 +65,6 @@ function renderQuestion (question = {}) {
     <h1>${question.title}</h1>
     <p>${question.body}</p>
     <p>By <strong>${author.first_name} ${author.last_name}</strong></p>
-    <button></button>
   `
 }
 
@@ -73,6 +72,7 @@ document.addEventListener('DOMContentLoaded', event => {
   // NOTE:  write code that needs to run after the DOM is fully loaded in here
   const questionList = q('#question-list');
   const questionDetails = q('#question-details')
+  const nav = q('nav');
 
   // NOTE: render a single question
   // Question
@@ -89,6 +89,21 @@ document.addEventListener('DOMContentLoaded', event => {
     .then(html => {
       questionList.innerHTML = html;
     });
+
+    nav.addEventListener('click', event => {
+      const {target} = event;
+      event.preventDefault();
+
+      const href = target.getAttribute('data-href');
+
+      switch (href) {
+        case 'question-list':
+          questionDetails.classList.add('hidden');
+          questionList.classList.remove('hidden');
+          break;
+      }
+    })
+
 
     questionList.addEventListener('click', event => {
       const {target} = event;
