@@ -14,17 +14,21 @@ a:active{
   color: SkyBlue;
 }
 
-.hidden{
+
+.hidden {
   display: none;
 }
-#question-list > *{
+
+#question-list > *:not(:last-child) {
   margin-bottom: 10px;
 }
 
-.backButton {
-    text-decoration: none; font: menu;
-    display: inline-block; padding: 2px 8px;
-    background: ButtonFace; color: ButtonText;
-    border-style: solid; border-width: 2px;
-    border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+#answer-list > *:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.answer-summary {
+  background-color: WhiteSmoke;
+  border-left: solid medium DeepSkyBlue;
+  padding: 0.1px 5px;
 }

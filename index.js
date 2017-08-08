@@ -65,8 +65,24 @@ function renderQuestion (question = {}) {
     <h1>${question.title}</h1>
     <p>${question.body}</p>
     <p>By <strong>${author.first_name} ${author.last_name}</strong></p>
+    <h2>Answers</h2>
+    <div id = "answer-list">
+      ${renderAnswers(question.answers)}
+    </div>
   `
 }
+
+function renderAnswers (answers = []){
+  return answers
+    .map(answer => `
+      <div class = "answer-summary">
+        <p>${answer.body}</p>
+        <p>by <strong>${answer.author_full_name}</strong></p>
+        <p><strong>Created At:</strong> ${answer.created_at}</p>
+      </div>
+      `).join('')
+}
+
 
 document.addEventListener('DOMContentLoaded', event => {
   // NOTE:  write code that needs to run after the DOM is fully loaded in here
