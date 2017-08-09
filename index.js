@@ -1,15 +1,16 @@
-// NOTE: 1. Build functions to fetch our data and test our backend in the process.
-// NOTE: 2. Allow CORS (cross origin resource sharing)on our backend server. We setup the `rack-cors` on awesoem answers to accomplish this.
+// NOTE:  This code below is used to create a single page application,
+// an API is used from the backend server `https://salty-shore-82054.herokuapp.com/`, everytime a question is posted it or viwed it will make a request to the backend server and then show the question from the database using the api. If you tried to create a question from the "herokuapp" the new question will show app in the following page `https://mohammedbm.github.io/AwesomeAnswers-SPA/`, the opposite will work the same way well.
+
 
 const DOMAIN = 'https://salty-shore-82054.herokuapp.com/';
 const API_PATH = '/api/v1';
 const API_KEY = 'adfc3a5a857f9c9c9bb2201bc5ee92b9366252ad91ba745b3191a6664537d7bd';
 
 // NOTE: to keep all method that do requests to Questions togthere, we'll put them inside an object named `Question`
-
 const Question = {
   // getAll: function () { ... }
-  // ð Property Method Shorthand. Syntax sugar for ð
+  // ðProperty Method Shorthand. Syntax sugar for ð
+  // NOTE: this method will fetch the question from the api we have and render it to the page, it will use the API_KEY to access it.
   getAll() {
     return fetch(
       `${DOMAIN}${API_PATH}/questions`, {
@@ -19,6 +20,7 @@ const Question = {
       }
     ).then(res => res.json());
   },
+  // NOTE: the method will get a specific question and show it in the page
   get(id) {
     return fetch(
       `${DOMAIN}${API_PATH}/questions/${id}`, {
@@ -28,6 +30,7 @@ const Question = {
       }
     ).then(res => res.json());
   },
+// NOTE: this method below will post a question to the database and update the api we have
   post(attributes) {
     return fetch(
       `${DOMAIN}${API_PATH}/questions/`, {
@@ -47,7 +50,7 @@ Question.getAll()
 Question.get(400)
 */
 
-// Node Selector Helpers
+//NOTE Node Selector Helpers, this is used to shorten the code and make it look cleaner
 function q(query) {
   return document.querySelector(query);
 }
@@ -56,7 +59,7 @@ function qs(query) {
   return document.querySelectorAll(query);
 }
 
-// View
+// NOTE:
 function renderQuestions(questions = []) {
   return questions
     .map(question => `
@@ -67,6 +70,7 @@ function renderQuestions(questions = []) {
     .join('');
 }
 
+// NOTE: this will render the selected question to the page we have.
 function renderQuestion(question = {}) {
   const {
     author = {}
@@ -82,6 +86,8 @@ function renderQuestion(question = {}) {
   `;
 }
 
+
+// NOTE: this function will render the answers inside the question page
 function renderAnswers(answers = []) {
   return answers
     .map(answer => `
@@ -94,13 +100,15 @@ function renderAnswers(answers = []) {
 }
 
 document.addEventListener('DOMContentLoaded', event => {
-  // Write code that needs to run after the DOM is fully loaded in here
+  //NOTE Write code that needs to run after the DOM is fully loaded in here
+  //NOTE this code below will use the q and qs functions, now it slecet a query everytime the function is used
   const questionList = q('#question-list');
   const questionDetails = q('#question-details');
   const questionForm = q('#question-form');
   const questionNew = q('#question-new');
   const nav = q('nav');
 
+  // NOTE: This function will render the selected question at the page and hide everything else in the page
   function showQuestion(id) {
     Question
       .get(id)
@@ -113,6 +121,7 @@ document.addEventListener('DOMContentLoaded', event => {
       });
   }
 
+// NOTE: this is the default setting for the page, it will show all the question
   Question
     .getAll()
     .then(renderQuestions)
@@ -141,7 +150,7 @@ document.addEventListener('DOMContentLoaded', event => {
     }
   })
 
-  // NOTE: this code will get the question id we need
+  // NOTE: this code will get the question id we need and send it to the function `showQuestion` to show the question we selected
   questionList.addEventListener('click', event => {
     const {
       target
@@ -153,11 +162,12 @@ document.addEventListener('DOMContentLoaded', event => {
     }
   });
 
+// NOTE: this code will post the question we created from the form we have, without this addEventListener the question cannot be created
   questionForm.addEventListener('submit', event => {
     const {
       currentTarget
     } = event;
-    event.preventDefault();
+    event.preventDefault(); //we used `event.preventDefault();` to prevent the defailt setting when we click the button which is reloading the page every time we click.
 
     const fData = new FormData(currentTarget);
 
